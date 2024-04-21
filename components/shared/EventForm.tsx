@@ -26,27 +26,38 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useUploadThing } from '@/lib/uploadthing'
 import { useRouter } from 'next/navigation'
-import { createEvent } from '@/lib/actions/event.actions'
-
+import { createEvent, updateEvent } from '@/lib/actions/event.actions'
+import { IEvent } from '@/lib/mongodb/database/models/event.model'
 
 type EventFormProps = {
   userId: string
   type: 'Create' | 'Update'
+  event?: IEvent
+  eventId?: string
 }
 
-export default function EventForm({ userId, type }: EventFormProps) {
-
+export default function EventForm({
+  userId,
+  type,
+  event,
+  eventId,
+}: EventFormProps) {
   const { startUpload } = useUploadThing('imageUploader')
 
   const [files, setFiles] = useState<File[]>([])
 
   const [startDate, setStartDate] = useState(new Date())
 
-  const initialValues = eventDefaultValues
+  const initialValues =
+    event && type === 'Update'
+      ? {
+          ...event,
+          startDateTime: new Date(event.startDateTime),
+          endDateTime: new Date(event.endDateTime),
+        }
+      : eventDefaultValues
 
   const router = useRouter()
-
-  
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof eventFormSchema>>({
@@ -56,11 +67,9 @@ export default function EventForm({ userId, type }: EventFormProps) {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
-   
-
     let uploadedImageUrl = values.imageUrl
 
-    if (files.length > 0 ) {
+    if (files.length > 0) {
       const uploadedImages = await startUpload(files)
 
       if (!uploadedImages) {
@@ -75,12 +84,13 @@ export default function EventForm({ userId, type }: EventFormProps) {
         const newEvent = await createEvent({
           event: {
             ...values,
-            imageUrl: uploadedImageUrl,},
-            userId,
-            path: '/profile'
+            imageUrl: uploadedImageUrl,
+          },
+          userId,
+          path: '/profile',
         })
 
-        if ( newEvent ) {
+        if (newEvent) {
           form.reset()
           router.push(`/events/${newEvent._id}`)
         }
@@ -89,6 +99,32 @@ export default function EventForm({ userId, type }: EventFormProps) {
       }
     }
 
+    if (type === 'Update') {
+      if(!eventId) {
+        router.back()
+        return
+      }
+
+
+      try {
+        const updatedEvent = await updateEvent({
+          event: {
+            ...values,
+            imageUrl: uploadedImageUrl,
+            _id: eventId,
+          },
+          userId,
+          path: '/profile',
+        })
+
+        if (updatedEvent) {
+          form.reset()
+          router.push(`/events/${updatedEvent._id}`)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 
   return (
@@ -220,7 +256,7 @@ export default function EventForm({ userId, type }: EventFormProps) {
                     </p>
                     <DatePicker
                       selected={field.value}
-                      onChange={(date: Date) => field.onChange}
+                      onChange={(date: Date) => field.onChange(date)}
                       showTimeSelect
                       timeInputLabel="Time:"
                       dateFormat="MM/dd/yyyy h:mm aa"
@@ -253,7 +289,7 @@ export default function EventForm({ userId, type }: EventFormProps) {
                     </p>
                     <DatePicker
                       selected={field.value}
-                      onChange={(date: Date) => field.onChange}
+                      onChange={(date: Date) => field.onChange(date)}
                       showTimeSelect
                       timeInputLabel="Time:"
                       dateFormat="MM/dd/yyyy h:mm aa"
@@ -325,8 +361,7 @@ export default function EventForm({ userId, type }: EventFormProps) {
             )}
           />
 
-
-<FormField
+          <FormField
             control={form.control}
             name="url"
             render={({ field }) => (
@@ -351,10 +386,16 @@ export default function EventForm({ userId, type }: EventFormProps) {
               </FormItem>
             )}
           />
-
         </div>
 
-        <Button type="submit" size-={'lg'} disabled={form.formState.isSubmitting} className='button col-span-2 w-full'>{form.formState.isSubmitting ? ( 'Submitting') : `${type} Event`} </Button>
+        <Button
+          type="submit"
+          size-={'lg'}
+          disabled={form.formState.isSubmitting}
+          className="button col-span-2 w-full"
+        >
+          {form.formState.isSubmitting ? 'Submitting' : `${type} Event`}{' '}
+        </Button>
       </form>
     </Form>
   )

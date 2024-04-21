@@ -15,8 +15,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-
 import { deleteEvent } from '@/lib/actions/event.actions'
+
+
 
 export default function DeleteConfirmation({ eventId }: { eventId: string }) {
   const pathname = usePathname()
