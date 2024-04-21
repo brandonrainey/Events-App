@@ -12,7 +12,7 @@ export default async function EventDetails({ params: { id }, searchParams }: Sea
 
     const relatedEvents = await getRelatedEventsByCategory({ categoryId: event.category._id, eventId: event._id, page: searchParams.page as string })
 
-    console.log(event)
+    // console.log(event)
   return (
 
     <>

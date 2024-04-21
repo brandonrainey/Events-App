@@ -15,7 +15,7 @@ export default function NavItems() {
         const isActive = pathname === link.route
 
         return (
-          <li className={`${isActive && 'text-primary-500'} flex-center p-medium-16 whitespace-nowrap`}>
+          <li className={`${isActive && 'text-primary-500'} flex-center p-medium-16 whitespace-nowrap`} key={link.label}>
             <Link href={link.route}>{link.label}</Link>
           </li>
         )

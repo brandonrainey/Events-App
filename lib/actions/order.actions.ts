@@ -44,6 +44,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
 }
 
 export const createOrder = async (order: CreateOrderParams) => {
+  console.log('createOrder 123132132132131112313131213')
   try {
     await connectToDatabase()
 

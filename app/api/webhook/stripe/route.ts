@@ -2,6 +2,7 @@ import stripe from 'stripe'
 import { NextResponse } from 'next/server'
 import { createOrder } from '@/lib/actions/order.actions'
 
+
 export async function POST(request: Request) {
   const body = await request.text()
 
@@ -13,14 +14,18 @@ export async function POST(request: Request) {
   try {
     event = stripe.webhooks.constructEvent(body, sig, endpointSecret)
   } catch (err) {
+    console.log(`⚠️  Webhook signature verification failed.`, err)
     return NextResponse.json({ message: 'Webhook error', error: err })
   }
 
   // Get the ID and type
   const eventType = event.type
 
+  console.log('event type: ', eventType)
+
   // CREATE
   if (eventType === 'checkout.session.completed') {
+    
     const { id, amount_total, metadata } = event.data.object
 
     const order = {
