@@ -4,6 +4,7 @@ import { createOrder } from '@/lib/actions/order.actions'
 
 
 export async function POST(request: Request) {
+    console.log('⚠️⚠️⚠️⚠️DOES THIS EVEN WORK HELLO WHATS GOING ON!@@!#!$#$@#@⚠️⚠️⚠️⚠️⚠️')
   const body = await request.text()
 
   const sig = request.headers.get('stripe-signature') as string
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
   // Get the ID and type
   const eventType = event.type
 
-  console.log('event type: ', eventType)
+//   console.log('event type: ', eventType)
 
   // CREATE
   if (eventType === 'checkout.session.completed') {
