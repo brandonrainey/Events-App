@@ -40,10 +40,12 @@ const OrderSchema = new Schema({
   event: {
     type: Schema.Types.ObjectId,
     ref: 'Event',
+    
   },
   buyer: {
     type: Schema.Types.ObjectId,
     ref: 'User',
+    
   },
 })
 
