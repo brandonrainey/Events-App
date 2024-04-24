@@ -114,8 +114,8 @@ export type CreateUserParams = {
   
   export type CreateOrderParams = {
     stripeId: string
-    eventId: string
-    buyerId: string
+    eventId: string | undefined
+    buyerId: string | undefined
     totalAmount: string
     createdAt: Date
   }
