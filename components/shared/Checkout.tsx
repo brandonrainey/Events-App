@@ -26,6 +26,8 @@ export default function Checkout({
       buyerId: userId,
     }
 
+    console.log('order', order)
+
     await checkoutOrder(order)
   }
 

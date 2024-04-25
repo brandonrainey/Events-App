@@ -2,6 +2,7 @@
 import { IEvent } from '@/lib/mongodb/database/models/event.model'
 import React from 'react'
 import Card from './Card'
+import Pagination from './Pagination'
 
 type CollectionProps = {
     data: IEvent[]
@@ -37,6 +38,10 @@ export default function Collection({ data, emptyTitle, emptyStateSubtext, collec
                     )
                 })}
             </ul>
+
+            {totalPages && totalPages > 1 && (
+                <Pagination urlParamName={urlParamName} page={page} totalPages={totalPages} />
+            )}
         </div>
     ) : (
         <div className='flex0center wrapper min-h-[200px] w-ful flex-col gap-3 rounded-[14px] bg-grey-50 py-28 text-center'>

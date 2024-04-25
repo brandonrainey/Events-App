@@ -37,11 +37,11 @@ export async function POST(request: Request) {
       createdAt: new Date(),
     }
 
-    console.log('Creating order', order)
+    
 
     const newOrder = await createOrder(order)
 
-    console.log('Created order', newOrder)
+    
     return NextResponse.json({ message: 'OK', order: newOrder })
   }
 

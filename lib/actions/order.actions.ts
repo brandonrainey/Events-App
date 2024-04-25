@@ -45,7 +45,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
 }
 
 export const createOrder = async (order: CreateOrderParams) => {
-  console.log('running createOrder')
+  
   try {
     await connectToDatabase();
     
@@ -66,8 +66,12 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
   try {
     await connectToDatabase()
 
+    
+
     if (!eventId) throw new Error('Event ID is required')
     const eventObjectId = new ObjectId(eventId)
+
+    console.log(eventObjectId)
 
     const orders = await Order.aggregate([
       {
@@ -100,7 +104,7 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
           eventTitle: '$event.title',
           eventId: '$event._id',
           buyer: {
-            $concat: ['$buyer.firstName', ' ', '$buyer.lastName'],
+            $concat: ['$buyer.username'],
           },
         },
       },
@@ -110,6 +114,8 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
         },
       },
     ])
+
+    console.log(orders)
 
     return JSON.parse(JSON.stringify(orders))
   } catch (error) {
@@ -136,7 +142,7 @@ export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUs
         populate: {
           path: 'organizer',
           model: User,
-          select: '_id firstName lastName',
+          select: '_id firstName lastName username',
         },
       })
 
