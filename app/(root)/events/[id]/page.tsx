@@ -1,8 +1,9 @@
 import CheckoutButton from '@/components/shared/CheckoutButton'
 import Collection from '@/components/shared/Collection'
-import { getEventById, getRelatedEventsByCategory } from '@/lib/actions/event.actions'
+import { getEventById, getEventsByUser, getRelatedEventsByCategory } from '@/lib/actions/event.actions'
 import { formatDateTime } from '@/lib/utils'
 import { SearchParamProps } from '@/types'
+import { IEvent } from '@/lib/mongodb/database/models/event.model'
 import Image from 'next/image'
 import React from 'react'
 
@@ -12,7 +13,10 @@ export default async function EventDetails({ params: { id }, searchParams }: Sea
 
     const relatedEvents = await getRelatedEventsByCategory({ categoryId: event.category._id, eventId: event._id, page: searchParams.page as string })
 
-    // console.log(event)
+    const realtedEventsByUser = await getEventsByUser({ userId: event.organizer._id, page: Number(searchParams.page) })
+
+    const allRealtedEvents = relatedEvents?.data.concat(realtedEventsByUser?.data.filter((event: IEvent) => event._id !== id && !relatedEvents?.data.some((e: IEvent) => e._id === event._id)))
+    
   return (
 
     <>
@@ -60,9 +64,9 @@ export default async function EventDetails({ params: { id }, searchParams }: Sea
                 </div>
 
                 <div className='flex flex-col gap-2'>
-                    <p className='p-bold-20 text-grey-600'>What You'll Learn</p>
+                    <p className='p-bold-20 text-grey-600'>Event Details</p>
                     <p className='p-medium-16 lg:p-regular-18 '>{event.description}</p>
-                    <p className='p-medium-16 lg:p-regular-18 truncate text-primary-500'>{event.url}</p>
+                    <a href={event.url} className='p-medium-16 lg:p-regular-18 truncate text-primary-500'>{event.url}</a>
                 </div>
             </div>
         </div>
@@ -73,13 +77,13 @@ export default async function EventDetails({ params: { id }, searchParams }: Sea
         <h2 className='h2-bold'>Related Events</h2>
 
         <Collection
-          data={relatedEvents?.data}
+          data={allRealtedEvents}
           emptyTitle="No events found"
           emptyStateSubtext="Come back later"
           collectionType="All_Events"
           limit={3}
           page={searchParams.page as string}
-          totalPages={relatedEvents?.totalPages}
+          totalPages={allRealtedEvents}
         />
     </section>
     </>

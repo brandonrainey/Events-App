@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Events App',
   description: 'Events App',
   icons: {
-    icon: '/assets/images/logo.svg',
+    icon: '/assets/images/logo.webp',
   },
 }
 

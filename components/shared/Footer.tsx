@@ -9,7 +9,7 @@ export default function Footer() {
         <Link href={'/'}>
           <Image src={'/assets/images/title.webp'} alt='Events App Logo' width={128} height={38} />
         </Link>
-        <p>2024 Events App. All Rights Reserved</p>
+        <p>2024 Japan Events. All Rights Reserved</p>
       </div>
     </footer>
   )

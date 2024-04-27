@@ -1,4 +1,6 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 import {
   Sheet,
   SheetContent,
@@ -12,9 +14,11 @@ import { Separator } from '../ui/separator'
 import NavItems from './NavItems'
 
 export default function MobileNav() {
+  const [sheetOpen, setSheetOpen] = useState(false)
+
   return (
     <nav className="md:hidden">
-      <Sheet>
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetTrigger className="align-middle">
           <Image
             src={'/assets/icons/menu.svg'}
@@ -32,7 +36,7 @@ export default function MobileNav() {
             height={38}
           />
           <Separator className="border border-gray-50" />
-          <NavItems />
+          <NavItems setOpen={setSheetOpen}/>
         </SheetContent>
       </Sheet>
     </nav>

@@ -45,7 +45,7 @@ export default function Card({
 
       <div
         
-        className="flex min-h-[230px] flex-col gap-3 p-5 md:ga-4"
+        className="flex min-h-[150px] flex-col gap-3 p-5 md:ga-4"
       >
         {!hidePrice && (
           <div className="flex gap-2">
@@ -71,7 +71,7 @@ export default function Card({
 
         <div className="flex-between w-full">
           <p className="p-medium-14 md:p-medium-16 text-grey-600">
-            {event.organizer.username}
+           by {event.organizer.username}
           </p>
 
           {hasOrderLink && (

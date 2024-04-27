@@ -17,6 +17,9 @@ type CollectionProps = {
 }
 
 export default function Collection({ data, emptyTitle, emptyStateSubtext, collectionType, limit, page, totalPages, urlParamName}: CollectionProps) {
+
+    console.log('data', data)
+
   return (
     <>
     {data.length > 0 ? (
