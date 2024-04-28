@@ -30,7 +30,7 @@ export default function RootLayout({
           <link rel="preload" href="/assets/images/hero-japan.png" as="image" />
           <link rel="preload" href="/assets/images/raked-pattern-low.jpg" as="image" />
         </head>
-        <body className={`${poppins.variable} bg-[#c0bfbf] bg-dotted-pattern`}>{children}</body>
+        <body className={`${poppins.variable} bg-dotted-pattern`}>{children}</body>
       </html>
     </ClerkProvider>
   )
