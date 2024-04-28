@@ -23,11 +23,11 @@ export default async function Home({ searchParams }: SearchParamProps) {
     <>
       <section className="bg-primary-50 bg-landscape-image bg-cover py-5 md:py-10">
         <div className="wrapper grid grid-cols-1 gap-5 md:grid-cols-2 2xl:gap-0">
-          <div className="flex flex-col justify-center gap-8 text-white">
+          <div className="flex flex-col justify-center gap-8 text-white ">
             <h1 className="h1-bold">
               Host or Discover Events Unique to Japan!
             </h1>
-            <p className="p-regular-20 md:p-regular-24">
+            <p className="p-regular-20 md:p-regular-24 bg-slate-50/10 rounded-lg pl-2">
               Embark on your next adventure with numerous events created by
               Japanese natives and many more.
             </p>
