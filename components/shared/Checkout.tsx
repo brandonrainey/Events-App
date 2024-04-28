@@ -16,8 +16,6 @@ export default function Checkout({
   userId: string
 }) {
   const onCheckout = async () => {
-    console.log('checkout')
-
     const order = {
       eventTitle: event.title,
       eventId: event._id,
@@ -25,8 +23,6 @@ export default function Checkout({
       isFree: event.isFree,
       buyerId: userId,
     }
-
-    console.log('order', order)
 
     await checkoutOrder(order)
   }
