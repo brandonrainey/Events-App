@@ -19,7 +19,7 @@ export default function NavItems({ setOpen }: NavItemsProps) {
         const isActive = pathname === link.route
 
         return (
-          <li className={`${isActive && 'text-primary-500'} flex-center p-medium-16 whitespace-nowrap`} key={link.label}>
+          <li className={`${isActive && 'text-primary-500'} flex-center p-medium-20 whitespace-nowrap`} key={link.label}>
             <Link href={link.route} onClick={() => setOpen && setOpen(false)}>{link.label}</Link>
           </li>
         )

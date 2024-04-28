@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   icons: {
     icon: '/assets/images/logo.webp',
   },
+
 }
 
 export default function RootLayout({
@@ -25,7 +26,11 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={poppins.variable}>{children}</body>
+        <head>
+          <link rel="preload" href="/assets/images/hero-japan.png" as="image" />
+          <link rel="preload" href="/assets/images/raked-pattern-low.jpg" as="image" />
+        </head>
+        <body className={`${poppins.variable} bg-[#c0bfbf] bg-dotted-pattern`}>{children}</body>
       </html>
     </ClerkProvider>
   )
