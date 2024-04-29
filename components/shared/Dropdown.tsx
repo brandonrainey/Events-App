@@ -52,7 +52,7 @@ export default function Dropdown({ value, onChangeHandler }: DropdownProps) {
 
 
   return (
-    <Select onValueChange={onChangeHandler} defaultValue={value}>
+    <Select onValueChange={onChangeHandler} defaultValue={value} aria-label="Category">
       <SelectTrigger className="select-field">
         <SelectValue placeholder="Category" />
       </SelectTrigger>
