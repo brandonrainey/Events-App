@@ -190,7 +190,7 @@ export default function EventForm({
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button
-                        className="absolute right-4 top-6 z-30 w-8 h-8 rounded-full p-2 hover:bg-primary/10 flex justify-center items-center"
+                        className="absolute right-2 top-4 z-30 w-8 h-8 rounded-full p-2 hover:bg-primary/10 flex justify-center items-center"
                         onClick={async (e) => {
                           e.preventDefault()
                           setGenerating(true)
@@ -204,7 +204,7 @@ export default function EventForm({
 
                           setGenerating(false)
                         }}
-                        disabled={field.value === ''}
+                        disabled={field.value === '' || generating}
                       >
                         <img
                           src={`${
@@ -231,7 +231,7 @@ export default function EventForm({
                   <Textarea
                     placeholder={`Description\n(use button to regenerate with AI)`}
                     {...field}
-                    className="textarea rounded-2xl"
+                    className="textarea-description rounded-2xl"
                   />
                 </FormControl>
 

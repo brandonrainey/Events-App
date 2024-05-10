@@ -217,6 +217,10 @@ body {
     @apply bg-grey-50 flex flex-1 placeholder:text-grey-500 p-regular-16 px-5 py-3 border-none focus-visible:ring-transparent !important;
   }
 
+  .textarea-description {
+    @apply bg-grey-50 flex flex-1 placeholder:text-grey-500 p-regular-16 pl-5 pr-7 py-3 border-none focus-visible:ring-transparent !important;
+  }
+
   .button {
     @apply rounded-full h-[54px] p-regular-16;
   }
