@@ -147,3 +147,26 @@ export type CreateUserParams = {
     params: { id: string }
     searchParams: { [key: string]: string | string[] | undefined }
   }
+
+  export type ChatCompletion = {
+    choices: {
+      finish_reason: string;
+      index: number;
+      message: {
+        content: string | null; // Modified to allow null
+        role: string;
+      };
+      logprobs: unknown; // Modify the type as needed
+    }[];
+    created: number;
+    id: string;
+    model: string;
+    object: string;
+    usage: {
+      completion_tokens: number;
+      prompt_tokens: number;
+      total_tokens: number;
+    };
+  };
+  
+  

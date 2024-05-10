@@ -30,7 +30,7 @@ export default function Card({
       <Link
         href={`/events/${event._id}`}
         style={{ backgroundImage: `url(${event.imageUrl})` }}
-        className="flex-center flex-grow bg-gray-50 bg-cover bg-center text-grey-500"
+        className="flex-center flex-grow bg-gray-50 bg-cover bg-center text-grey-500 eventCard"
       />
 
       {isEventCreator && !hidePrice && (

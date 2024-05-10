@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { useForm, useFormContext } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -13,6 +13,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+
 import { Input } from '@/components/ui/input'
 import { eventFormSchema } from '@/lib/validator'
 import * as z from 'zod'
@@ -28,6 +35,8 @@ import { useUploadThing } from '@/lib/uploadthing'
 import { useRouter } from 'next/navigation'
 import { createEvent, updateEvent } from '@/lib/actions/event.actions'
 import { IEvent } from '@/lib/mongodb/database/models/event.model'
+import generateResponse from '@/lib/actions/openai.actions'
+import { ChatCompletion } from '@/types'
 
 type EventFormProps = {
   userId: string
@@ -47,6 +56,8 @@ export default function EventForm({
   const [files, setFiles] = useState<File[]>([])
 
   const [startDate, setStartDate] = useState(new Date())
+
+  const [generating, setGenerating] = useState(false)
 
   const initialValues =
     event && type === 'Update'
@@ -100,11 +111,10 @@ export default function EventForm({
     }
 
     if (type === 'Update') {
-      if(!eventId) {
+      if (!eventId) {
         router.back()
         return
       }
-
 
       try {
         const updatedEvent = await updateEvent({
@@ -175,10 +185,51 @@ export default function EventForm({
             control={form.control}
             name="description"
             render={({ field }) => (
-              <FormItem className="w-full">
+              <FormItem className="w-full relative">
+                <TooltipProvider delayDuration={0}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        className="absolute right-4 top-6 z-30 w-8 h-8 rounded-full p-2 hover:bg-primary/10 flex justify-center items-center"
+                        onClick={async (e) => {
+                          e.preventDefault()
+                          setGenerating(true)
+                          const newFieldValue = await generateResponse(
+                            field.value
+                          )
+
+                          const newDescription =
+                            newFieldValue?.choices[0]?.message?.content || ''
+                          form.setValue('description', newDescription)
+
+                          setGenerating(false)
+                        }}
+                        disabled={field.value === ''}
+                      >
+                        <img
+                          src={`${
+                            generating
+                              ? '/assets/icons/spinner.svg'
+                              : '/assets/icons/lightbulb.svg'
+                          }`}
+                          alt="generate button icon"
+                          className="opacity-70 "
+                        />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-primary-50 mb-2">
+                      <p>
+                        {field.value === ''
+                          ? 'Enter a description to enable AI'
+                          : 'Generate new description with AI'}
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
                 <FormControl className="h-72">
                   <Textarea
-                    placeholder="Description"
+                    placeholder={`Description\n(use button to regenerate with AI)`}
                     {...field}
                     className="textarea rounded-2xl"
                   />

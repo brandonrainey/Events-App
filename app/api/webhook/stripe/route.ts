@@ -23,12 +23,6 @@ export async function POST(request: Request) {
   if (eventType === 'checkout.session.completed') {
     const { id, amount_total, metadata } = event.data.object
 
-  //   // Check if eventId and buyerId are present and not empty
-  //   if (!metadata?.eventId || !metadata?.buyerId) {
-  //     console.error('Missing eventId or buyerId in metadata');
-  //     return NextResponse.json({ message: 'Missing required metadata', status: 'error' });
-  // }
-
     const order = {
       stripeId: id,
       eventId: metadata?.eventId,
