@@ -55,8 +55,6 @@ export default function EventForm({
 
   const [files, setFiles] = useState<File[]>([])
 
-  const [startDate, setStartDate] = useState(new Date())
-
   const [generating, setGenerating] = useState(false)
 
   const initialValues =

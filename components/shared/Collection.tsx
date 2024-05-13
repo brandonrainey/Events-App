@@ -19,7 +19,6 @@ export default function Collection({
   emptyTitle,
   emptyStateSubtext,
   collectionType,
-  limit,
   page,
   totalPages,
   urlParamName,
